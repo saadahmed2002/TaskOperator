@@ -16,17 +16,23 @@ export default function TaskListWithFilters({ user }) {
   });
 
 useEffect(() =>{
+
   fetchAssignedTasks()
-  if(!user) window.location = "/"
+ 
 
 
-},[])
+},[tasks])
+
+  
 
   const fetchAssignedTasks = async () => {
     setLoading(true)
 
 
     try {
+      if(user._id == null || undefined) {
+          window.location.reload()
+      }
 
       const response = await fetch(`/api/task/assignedToMe/${user._id}`, {
         method: 'GET',

@@ -1,9 +1,19 @@
 'use client';
+import { useEffect } from 'react';
 import TaskListWithFilters from './TaskListWithFilters';
 import { useAuth } from '@/app/context/Authcontext';
 
 export default function TeamMemberDashboard() {
   const { logout, currentUser, user } = useAuth();
+    useEffect(() => {
+      if (typeof window !== 'undefined') {
+        if (!sessionStorage.getItem('reloaded')) {
+          console.log('called')
+          sessionStorage.setItem('reloaded', 'true');
+          window.location.reload();
+        }
+      }
+    }, []);
 
   const handleLogout = () => {
     logout();
