@@ -10,7 +10,7 @@ export async function POST(req) {
   await dbConnect();
 
   try {
-    const body = await req.json(); // ✅ Proper body parsing
+    const body = await req.json(); 
     const { name, email, password, designation } = body;
 
     if (!name || !email || !password || !designation) {

@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
   id: {
     type: String,
     required: true,
-    unique: true, // Prevent duplicate UUIDs
+    unique: true,
   },
   name: {
     type: String,
@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true, // Email should be unique
+    unique: true, 
   },
   password: {
     type: String,
@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   notifications: {
-    type: [String], // Or use a schema if more complex notifications
+    type: [String],
     default: [],
   },
 }, { timestamps: true });

@@ -75,7 +75,7 @@ export default function AddMemberPage() {
   };
   
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 text-gray-900 px-4">
       <div className="w-full max-w-md bg-gray-800 text-white p-8 rounded-2xl shadow-lg ring-1 ring-gray-700">
         <h2 className="text-3xl font-bold mb-6 text-center text-blue-400">Add New Member</h2>
         {message && (

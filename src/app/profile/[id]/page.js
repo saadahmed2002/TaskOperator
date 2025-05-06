@@ -1,7 +1,7 @@
 'use client';
 
 import ConfirmDialog from '@/app/Components/ConfirmDialogBox';
-import { useParams, useRouter } from 'next/navigation'; // Corrected import for router
+import { useParams, useRouter } from 'next/navigation'; 
 import { useEffect, useState } from 'react';
 import { LuCircleCheckBig, LuNotepadText } from 'react-icons/lu';
 import { MdOutlinePendingActions, MdOutlineSmsFailed } from 'react-icons/md';
@@ -9,7 +9,7 @@ import { MdOutlinePendingActions, MdOutlineSmsFailed } from 'react-icons/md';
 export default function ProfilePage() {
   const params = useParams();
   const router = useRouter()
-  const { id } = params // Use router.query to access dynamic parameter
+  const { id } = params 
 
   const [member, setMember] = useState(null);
   const [tasks, setTasks] = useState([]);
@@ -22,13 +22,12 @@ export default function ProfilePage() {
     onConfirm: () => {},
   });
     useEffect(() => {
-      // Fetch task stats from the API
       const fetchTaskStats = async () => {
         if(!id) return
         try {
           const res = await fetch(`/api/task/stats/${id}`, {
             method: 'GET',
-            credentials: 'include', // Ensure cookies are sent with the request
+            credentials: 'include',
           });
   
           if (res.ok) {
@@ -52,19 +51,19 @@ export default function ProfilePage() {
 
 
   useEffect(() => {
-    if (!id) return; // If email is not available, wait until it becomes available.
+    if (!id) return;
 
     const fetchMemberData = async () => {
       try {
         const res = await fetch(`/api/user/member/${id}`, {
-          credentials: 'include', // Ensure cookie JWT is sent
+          credentials: 'include', 
         });
 
         if (!res.ok) throw new Error('Failed to fetch member data');
 
         const data = await res.json();
         
-        setMember(data.member); // assuming backend sends { member, tasks }
+        setMember(data.member); 
         setTasks(data.tasks || []);
       } catch (error) {
         console.error(error);
@@ -76,7 +75,7 @@ export default function ProfilePage() {
     };
 
     fetchMemberData();
-  }, [id]); // Re-run when email changes
+  }, [id]);
 
   const completedTasks = tasks.filter((task) => task.status === 'Completed');
   const pendingTasks = tasks.filter((task) => task.status !== 'Completed');

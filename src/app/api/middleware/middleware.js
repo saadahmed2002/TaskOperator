@@ -1,19 +1,29 @@
-// middleware/authMiddleware.js
+
+import { parse } from 'cookie';
 import jwt from 'jsonwebtoken';
-import config from '../../../../config/config';
 
-export const verifyToken = async (req, res, next) => {
-  const token = req.cookies?.token;
-
-  if (!token) {
-    return res.status(401).json({ message: 'Unauthorized' });
-  }
-
+export async function verifyToken(req) {
   try {
-    const decoded = jwt.verify(token,config.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    return res.status(403).json({ message: 'Forbidden' });
+    const cookieHeader = req.headers.get('cookie');
+    if (!cookieHeader) {
+      return { authorized: false, response: unauthorized('No token') };
+    }
+
+    const { token } = parse(cookieHeader);
+    if (!token) {
+      return { authorized: false, response: unauthorized('Token missing') };
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    return { authorized: true, user: decoded };
+  } catch (err) {
+    return { authorized: false, response: unauthorized('Invalid or expired token') };
   }
-};
+}
+
+function unauthorized(message) {
+  return new Response(JSON.stringify({ message: `Unauthorized: ${message}` }), {
+    status: 401,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}

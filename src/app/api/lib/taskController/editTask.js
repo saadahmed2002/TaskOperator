@@ -3,7 +3,7 @@ import Task from '../../model/Task';
 import { NextResponse } from 'next/server';
 
 export async function editTask(req, { params }) {
-  const { taskId } =await params;
+  const { taskId } = params;
   const updatedData = await req.json();
 
   await dbConnect();

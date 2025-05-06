@@ -1,4 +1,3 @@
-// app/api/notifications/read/[notificationId]/route.js
 
 import dbConnect from '@/app/api/lib/dbConnect';
 import Notification from '@/app/api/model/Notification';

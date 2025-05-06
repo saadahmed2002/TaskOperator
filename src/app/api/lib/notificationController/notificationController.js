@@ -8,8 +8,6 @@ const main = async (req, res) => {
     try {
         const { recipientId, message, taskId, type } = req.json();
 
-
-        // Create the notification
         const newNotification = new Notification({
             recipientId,
             message,
@@ -41,11 +39,10 @@ const markAsRead = async (req, res) => {
   const notificationId = req.params.notificationId;
 
   try {
-    // Find and update the notification by its ID, setting `read` to true
     const updatedNotification = await Notification.findByIdAndUpdate(
       notificationId,
-      { read: true }, // Mark it as read
-      { new: true } // Return the updated document
+      { read: true }, 
+      { new: true }
     );
 
     if (!updatedNotification) {

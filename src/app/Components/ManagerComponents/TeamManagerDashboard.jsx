@@ -32,7 +32,7 @@ export default function DashboardPage() {
   const fetchTeamMembers = async () => {
     setLoading(true)
     try {
-      const res = await fetch(`/api/user/members`, {
+      const res = await fetch(`/api/user/teamMembers`, {
         credentials: 'include',
       });
       if (!res.ok) throw new Error('Failed to fetch members');
@@ -172,7 +172,7 @@ export default function DashboardPage() {
   if (loading || !user) return <div className="text-center mt-10 text-white">Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 p-6 text-white">
+    <div className="min-h-screen bg-gradient-to-r from-green-400 via-blue-500 to-purple-500  p-6 text-white">
       <div className="max-w-6xl mx-auto bg-gray-900 p-6 rounded-2xl shadow-2xl">
         <header className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">Welcome, {user.name}</h1>

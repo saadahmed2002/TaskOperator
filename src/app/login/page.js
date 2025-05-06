@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '../context/Authcontext'; // update path if needed
+import { useAuth } from '../context/Authcontext';
 
 export default function LoginPage() {
   const [disable, setEnable] = useState(false);

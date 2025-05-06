@@ -12,9 +12,9 @@ export default function AssignTaskPage() {
     title: '',
     description: '',
     dueDate: '',
-    assignedDate: new Date().toISOString().split('T')[0], // today's date
+    assignedDate: new Date().toISOString().split('T')[0],  
     status: 'Pending',
-    priority: 'Medium', // default priority
+    priority: 'Medium', 
   });
 
   const [teamMembers, setTeamMembers] = useState([]);
@@ -22,7 +22,7 @@ export default function AssignTaskPage() {
   const [currentMember, setCurrentMember] = useState(null);
 
   useEffect(() => {
-    // Fetch current user data
+
     const fetchCurrentMember = async () => {
       try {
         const res = await fetch(`/api/auth/me`, {
@@ -39,22 +39,21 @@ export default function AssignTaskPage() {
       }
     };
 
-    // Fetch team members
     const fetchTeamMembers = async () => {
       try {
-        const res = await fetch(`/api/user/members`, {
+        const res = await fetch(`/api/user/teamMembers`, {
           credentials: 'include',
         });
 
         if (!res.ok) throw new Error('Failed to fetch members');
         const members = await res.json();
    
+        console.log(members)
         setTeamMembers(members.users);
       } catch (error) {
         console.error('Error fetching team members:', error);
       }
     };
-
     fetchCurrentMember();
     fetchTeamMembers();
   }, []);
@@ -63,12 +62,9 @@ export default function AssignTaskPage() {
     setTask({ ...task, [e.target.name]: e.target.value });
   };
 
-  // Notification creation function
-// Notification creation function
 const createNotification = async (recipientId, message, taskId) => {
   try {
-    const notificationType = 'task-assigned'; // You can define a fixed type or dynamic depending on the context
-
+    const notificationType = 'task-assigned'; 
     await fetch(`/api/notification/create`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -77,7 +73,7 @@ const createNotification = async (recipientId, message, taskId) => {
         recipientId,
         message,
         taskId,
-        type: notificationType, // Add type here
+        type: notificationType,
       }),
     });
   } catch (error) {
@@ -108,7 +104,6 @@ const createNotification = async (recipientId, message, taskId) => {
 
       const result = await res.json();
 
-      // Create notification after task creation
       await createNotification(
         assignedMemberId,
         `You have been assigned a new task: "${result.title}"`,
@@ -122,7 +117,6 @@ const createNotification = async (recipientId, message, taskId) => {
     }
   };
 
-  // Filter out the current user from the team members list
   const filteredMembers = teamMembers.filter(member => member._id !== currentUser?._id);
 
   return (

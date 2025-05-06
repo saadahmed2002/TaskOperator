@@ -9,10 +9,9 @@ export default function UpdateProfileForm({ user }) {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    // Password length validation
     if (password && password.length < 6) {
       setMessage('Password must be at least 6 characters long.');
-      return; // Stop further processing if validation fails
+      return; 
     }
 
     try {
@@ -26,8 +25,8 @@ export default function UpdateProfileForm({ user }) {
       if (res.ok) {
         setMessage('Profile updated successfully!');
         setTimeout(() => {
-          window.location.reload(); // Refresh the page after 2 seconds to allow message display
-        }, 2000); // Wait for 2 seconds before refreshing the page
+          window.location.reload(); 
+        }, 2000); 
       } else {
         setMessage('Failed to update profile.');
       }

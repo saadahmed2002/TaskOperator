@@ -2,12 +2,7 @@
 
 export default function ConfirmDialog({ isOpen, onClose, onConfirm, title, message }) {
 
-    //   const [confirmDialog, setConfirmDialog] = useState({
-    //     isOpen: false,
-    //     title: '',
-    //     message: '',
-    //     onConfirm: () => {},
-    //   });
+
   if (!isOpen) return null;
 
   return (

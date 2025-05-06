@@ -17,7 +17,7 @@ const notificationSchema = new Schema({
     required: true,
   },
   type: {
-    type: String, // e.g., 'task-assigned'
+    type: String,
     required: true,
   },
   read: {

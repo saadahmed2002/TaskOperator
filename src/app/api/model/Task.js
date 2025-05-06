@@ -12,5 +12,4 @@ const taskSchema = new mongoose.Schema({
   status: { type: String, default: 'Pending' },
 }, { timestamps: true });
 
-// Use mongoose.models to avoid overwriting the model if it already exists
 module.exports = mongoose.models.Task || mongoose.model('Task', taskSchema);

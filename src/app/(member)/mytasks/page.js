@@ -5,7 +5,7 @@ import { useAuth } from '@/app/context/Authcontext';
 
 export default function MyTasksPage() {
   
-  const [selectedTask, setSelectedTask] = useState(null); // Task shown in modal
+  const [selectedTask, setSelectedTask] = useState(null); 
   const { currentUser } = useAuth();
   const [tasks, setTasks] = useState([]);
   const [filteredTasks, setFilteredTasks] = useState([]);
@@ -16,7 +16,7 @@ export default function MyTasksPage() {
     priority: '',
     dueDate: '',
   });
-  const [editingTask, setEditingTask] = useState(null); // Task being edited
+  const [editingTask, setEditingTask] = useState(null);  
   const [editForm, setEditForm] = useState({
     title: '',
     description: '',
@@ -25,7 +25,6 @@ export default function MyTasksPage() {
     status: '',
   });
 
-  // Fetch tasks from backend when component mounts
   useEffect(() => {
     const fetchTasks = async () => {
 
@@ -57,7 +56,7 @@ export default function MyTasksPage() {
 
   useEffect(() => {
     const lowerSearch = searchTerm.toLowerCase().trim();
-
+    if(tasks.length > 0){
     const result = tasks.filter((task) => {
       const matchesSearch =
         task.title.toLowerCase().includes(lowerSearch) ||
@@ -80,8 +79,13 @@ export default function MyTasksPage() {
         matchesDueDate
       );
     });
-
     setFilteredTasks(result);
+  }
+  else {
+    setFilteredTasks([])
+  }
+
+
   }, [searchTerm, filters, tasks]);
 
   const handleEditClick = (task) => {
@@ -103,13 +107,12 @@ export default function MyTasksPage() {
     try {
       const updatedTask = { ...editForm };
 
-      // Use the same API endpoint as `saveEditedTask`
       const res = await fetch(
         `/api/task/editTask/${taskId}`,
         {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          credentials: 'include', // Assuming authentication is needed
+          credentials: 'include', 
           body: JSON.stringify(updatedTask),
         }
       );
@@ -120,17 +123,14 @@ export default function MyTasksPage() {
 
       const updated = await res.json();
 
-      // Handle the response and update task list
       if (!updated || !updated._id) {
         throw new Error('Invalid updated task from server');
       }
 
-      // Update the task list with the updated task
-      setTasks((prev) =>
-        prev.map((task) => (task._id === updated._id ? updated : task)) // Use _id for comparison
-      );
+     setTasks((prev) =>
+        prev.map((task) => (task._id === updated._id ? updated : task)) );
 
-      // Reset the editing task state
+    
       setEditingTask(null);
     } catch (error) {
       console.error('Error updating task:', error);
@@ -150,7 +150,6 @@ export default function MyTasksPage() {
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold mb-8">Tasks You Assigned</h1>
 
-        {/* Filters */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
         <div className="flex flex-col">
           <label className="text-sm text-gray-300 mb-1">Search</label>
@@ -213,12 +212,11 @@ export default function MyTasksPage() {
           </button>
         </div>
       </div>
-        {/* Task Cards */}
         {filteredTasks.length === 0 ? (
           <p className="text-gray-400">Not available.</p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredTasks.map((task) => (
+            {filteredTasks.length >  0 && filteredTasks.map((task) => (
               <div
                 key={task._id}
                 className="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 cursor-pointer"
@@ -333,7 +331,6 @@ export default function MyTasksPage() {
           </div>
         )}
       </div>
-      {/* Modal */}
       {selectedTask && (
         <div className="fixed inset-0  bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-gray-900 p-6 rounded-2xl w-full max-w-lg border border-gray-700 shadow-xl relative">

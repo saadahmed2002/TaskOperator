@@ -1,20 +1,19 @@
 import dbConnect from '../dbConnect';
 import Task from '../../model/Task';
-import { NextResponse } from 'next/server';
 
 export async function deleteTask(req, { params }) {
-  const { taskId } =await params;
+  const { taskId } = params;
 
   await dbConnect();
 
   try {
     const deletedTask = await Task.findByIdAndDelete(taskId);
     if (!deletedTask) {
-      return NextResponse.json({ message: 'Task not found' }, { status: 404 });
+      return new Response(JSON.stringify({ message: 'Task not found' }), { status: 404 });
     }
-    return NextResponse.json({ message: 'Task deleted successfully' });
+    return new Response(JSON.stringify({ message: 'Task deleted successfully' }), { status: 200 });
   } catch (err) {
-    console.error('Error deleting task:', err);
-    return NextResponse.json({ message: 'Server error' }, { status: 500 });
+    console.error('Failed to delete task:', err);
+    return new Response(JSON.stringify({ message: 'Server error' }), { status: 500 });
   }
 }

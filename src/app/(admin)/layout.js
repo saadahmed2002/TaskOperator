@@ -13,9 +13,9 @@ export default function ManagerLayout({ children }) {
   useEffect(() => {
     if (!loading) {
       if (!user) {
-        router.replace('/login'); // Not logged in
+        router.replace('/login'); 
       } else if (user.role !== 'manager') {
-        router.replace('/unauthorized'); // Logged in but not a manager
+        router.replace('/unauthorized'); 
       }
     }
   }, [user, loading, router]);
@@ -23,7 +23,8 @@ export default function ManagerLayout({ children }) {
   if (loading || !user || user.role !== 'manager') {
     return <div className="">
 
-      <p className="text-center  mt-10"><Loader size={48} /></p>
+      <div className="text-center  mt-10">
+        <Loader size={48} /></div>
     </div>
     
   }

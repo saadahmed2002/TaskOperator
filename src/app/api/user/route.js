@@ -1,6 +1,4 @@
 
-// Example of correct import if files are in src/lib/
-// dbConnect
 import dbConnect from '../lib/dbConnect';
 import { getTeamMembers } from '../lib/userController/userController';
 

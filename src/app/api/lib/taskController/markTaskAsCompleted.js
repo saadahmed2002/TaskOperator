@@ -3,7 +3,7 @@ import Task from '../../model/Task';
 import { NextResponse } from 'next/server';
 
 export async function markTaskAsCompleted(req, { params }) {
-  const { taskId } =await params;
+  const { taskId } = params;
 
   await dbConnect();
 
@@ -15,7 +15,8 @@ export async function markTaskAsCompleted(req, { params }) {
 
     task.status = 'Completed';
     await task.save();
-    return NextResponse.json({ message: 'Task marked as completed', task });
+
+    return NextResponse.json({ message: 'Task marked as completed' }, { status: 200 });
   } catch (error) {
     console.error('Error completing task:', error);
     return NextResponse.json({ message: 'Server error while updating task' }, { status: 500 });

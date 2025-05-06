@@ -24,14 +24,12 @@ export default function AssignedTasksPage() {
     onConfirm: () => {},
   });
   
-const API = process.env.NEXT_PUBLIC_API_URL
 useEffect(() => {
   if (!loading && !user) {
     router.replace('/login');
   } else if (user) {
     fetchAssignedTasks();
   }
-// remove assignedTasks from dependency array
 }, [user, loading]);
 
 
@@ -168,7 +166,6 @@ useEffect(() => {
           </button>
         </header>
 
-        {/* Filters */}
         <div className="grid md:grid-cols-4 gap-4 mb-6 items-end">
           <div>
             <label className="block text-white mb-1">Search</label>
@@ -215,19 +212,21 @@ useEffect(() => {
           </div>
         </div>
 
-        {/* Task List */}
-        {filteredTasks.length === 0 ? (
-          <p className="text-center text-gray-400">No tasks match your filters.</p>
+        {assignedTasks.length === 0 ? (
+          <p className="text-center text-gray-400">No task available.</p>
         ) : (
           <ul className="space-y-6">
-            {filteredTasks.map(task => (
+            {
+              filteredTasks.length > 0 ? 
+            
+            filteredTasks.map(task => (
               <li
                 key={task._id}
                 className="bg-gray-800 rounded-2xl shadow-lg p-6 transition hover:scale-[1.01] hover:shadow-xl cursor-pointer"
                 onClick={() => setSelectedTaskForView(task)}
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Left Column */}
+                 
                   <div>
                     <h3 className="text-2xl font-bold text-white mb-2 line-clamp-2">{task.title}</h3>
                     <p className="text-gray-300 mb-3 line-clamp-2">{task.description}</p>
@@ -239,7 +238,6 @@ useEffect(() => {
                     </div>
                   </div>
 
-                  {/* Right Column */}
                   <div className="flex flex-col justify-between space-y-4">
                     <div className="text-sm text-gray-400 space-y-1">
                       <p>
@@ -286,12 +284,11 @@ useEffect(() => {
                   </div>
                 </div>
               </li>
-            ))}
+            )):  <p>No task matches your filter</p>}
           </ul>
         )}
       </div>
 
-      {/* Edit Task Modal */}
       {taskBeingEdited && (
         <div className="fixed inset-0 backdrop-blur-sm bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-gray-800 p-8 rounded-xl shadow-xl w-[500px] text-white space-y-4">

@@ -12,7 +12,7 @@ export default function AssignTaskPage() {
     title: '',
     description: '',
     dueDate: '',
-    assignedDate: new Date().toISOString().split('T')[0], // Default to today
+    assignedDate: new Date().toISOString().split('T')[0], 
     status: 'Pending',
     priority: 'Low',
   });
@@ -21,12 +21,11 @@ export default function AssignTaskPage() {
   const [assignedMemberId, setAssignedMemberId] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
 
-  // Fetch team members and current user data
   useEffect(() => {
     const fetchTeamMembers = async () => {
      
       try {
-        const res = await fetch(`/api/user/members`, {
+        const res = await fetch(`/api/user/teamMembers`, {
           credentials: 'include',
         });
 
@@ -59,7 +58,6 @@ export default function AssignTaskPage() {
     fetchTeamMembers();
   }, []);
 
-  // Notification creation function
   const createNotification = async (recipientId, message, taskId) => {
     try {
       await fetch(`/api/notification/create`, {
@@ -70,7 +68,7 @@ export default function AssignTaskPage() {
           recipientId,
           message,
           taskId,
-          type: 'task-assigned', // Add type explicitly
+          type: 'task-assigned', 
         }),
       });
     } catch (error) {
@@ -105,7 +103,6 @@ export default function AssignTaskPage() {
 
       const result = await res.json();
 
-      // Create notification after task creation
       await createNotification(
         assignedMemberId,
         `You have been assigned a new task: "${result.title}"`,
@@ -122,7 +119,7 @@ export default function AssignTaskPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-6 sm:p-10">
+    <div className="min-h-screen bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 text-gray-900 text-white p-6 sm:p-10">
       <div className="max-w-3xl mx-auto bg-gray-800 rounded-3xl shadow-2xl p-8 sm:p-12">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-blue-400 mb-10">Create and Assign Task</h1>
 

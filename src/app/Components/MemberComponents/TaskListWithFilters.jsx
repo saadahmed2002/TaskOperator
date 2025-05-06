@@ -105,7 +105,6 @@ useEffect(() =>{
       });
   
       if (response.ok) {
-        // Update tasks in local state
         const updatedTasks = tasks.map(task =>
           task._id === taskId ? { ...task, status: 'Completed' } : task
         );
@@ -122,7 +121,6 @@ useEffect(() =>{
   
   return (
     <>
-      {/* Filters */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
         <div className="flex flex-col">
           <label className="text-sm text-gray-300 mb-1">Search</label>
@@ -187,7 +185,6 @@ useEffect(() =>{
         </div>
       </div>
 
-      {/* Task Cards */}
       {tasksLoading ? (
         <p className="text-center text-gray-400">Loading your tasks...</p>
       ) : filteredTasks.length  < 1 ? (
@@ -223,7 +220,6 @@ useEffect(() =>{
         </div>
       )}
 
-      {/* Task Modal */}
       {selectedTask && (
         <div className="fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50">
           <div className="bg-[#1f2937] p-8 rounded-2xl shadow-2xl w-[500px] text-white space-y-5 border border-gray-700">

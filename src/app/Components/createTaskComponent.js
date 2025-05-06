@@ -22,8 +22,8 @@ export default function CreateTaskForm({ onClose, onCreate }) {
 
     if (res.ok) {
       const task = await res.json();
-      onCreate(task); // Callback to update task list
-      onClose(); // Close modal/form
+      onCreate(task); 
+      onClose(); 
     } else {
       console.error('Failed to create task');
     }

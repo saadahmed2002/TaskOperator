@@ -1,94 +1,117 @@
-
-import { NextResponse } from 'next/server';
+import bcrypt from 'bcrypt';
 import User from '../../model/User';
 
-
-export const createUser = async (req) => {
-  
-  const { name, email, password, designation, id } =await req.json();
-  console.log(name, email,password,designation,id);
-  
+export async function createUser(req) {
+  const { name, email, password, designation, id } = await req.json();
 
   if (!name || !email || !password || !designation) {
-    return  NextResponse.json({ status: 400, message: 'Missing required fields' });
+    return new Response(JSON.stringify({ message: 'Missing required fields' }), { status: 400 });
   }
 
   try {
-    const newUser = new User({ name, email, password, designation });
-    const savedUser = await newUser.save();
-    console.log(savedUser)
-    return NextResponse.json({ status: 201, data: savedUser });
+    const user = new User({ name, email, password, designation });
+    const saved = await user.save();
+    return new Response(JSON.stringify(saved), { status: 201 });
   } catch (err) {
-    console.error('Error creating user:', err);
-    return NextResponse.json({ status: 500, message: 'Server error' });
+    console.error('Create user error:', err);
+    return new Response(JSON.stringify({ message: 'Server error' }), { status: 500 });
   }
-};
+}
 
-export const getAllUsers = async () => {
+export async function getAllUsers() {
   try {
     const users = await User.find();
-    return Response.json({ users });
+    return new Response(JSON.stringify({ users }), { status: 200 });
   } catch (err) {
-    console.error('Error fetching users:', err);
-    return NextResponse.json({ status: 500, message: 'Server error' });
+    console.error('Fetch users error:', err);
+    return new Response(JSON.stringify({ message: 'Server error' }), { status: 500 });
   }
-};
+}
 
-export const updateUser = async (req) => {
+export async function updateUser(req) {
   const { name, email, password } = await req.json();
-  try {
-    const updatedUser = await User.findOne({ email });
 
-    if (!updatedUser) {
-      return  NextResponse.json({ message: 'User not found' });
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return new Response(JSON.stringify({ message: 'User not found' }), { status: 404 });
     }
 
-    // Update fields if provided
-    if (name) updatedUser.name = name;
-    if (password) updatedUser.password = await bcrypt.hash(password, 10);
+    if (name) user.name = name;
+    if (password) user.password = await bcrypt.hash(password, 10);
 
-   const result = await updatedUser.save();
-   console.log(result)
-
-    return NextResponse.json({ message: 'User updated successfully' });
+    await user.save();
+    return new Response(JSON.stringify({ message: 'Updated successfully' }), { status: 200 });
   } catch (err) {
-    console.error(err);
-    return NextResponse.json({ message: 'Error updating user' });
+    console.error('Update error:', err);
+    return new Response(JSON.stringify({ message: 'Update failed' }), { status: 500 });
   }
-};
+}
 
-export const deleteUser = async (userId) => {
+export async function deleteUser(userId) {
   try {
-    const deletedUser = await User.findByIdAndDelete(userId);
-    if (!deletedUser) {
-      return { status: 404, message: 'User not found' };
+    const removed = await User.findByIdAndDelete(userId);
+    if (!removed) {
+      return new Response(JSON.stringify({ message: 'User not found' }), { status: 404 });
     }
-    return { status: 200, message: 'User deleted successfully' };
+    return new Response(JSON.stringify({ message: 'Deleted' }), { status: 200 });
   } catch (err) {
-    console.error('Error deleting user:', err);
-    return { status: 500, message: 'Server error' };
+    console.error('Delete user error:', err);
+    return new Response(JSON.stringify({ message: 'Server error' }), { status: 500 });
   }
-};
+}
 
-export const getUserDetails = async (userId) => {
+export async function getUserDetails(userId) {
   try {
     const user = await User.findById(userId);
     if (!user) {
-      return NextResponse.json({ status: 404, message: 'User not found' });
+      return new Response(JSON.stringify({ message: 'User not found' }), { status: 404 });
     }
-    return NextResponse.json({ status: 200, data: user });
+    return new Response(JSON.stringify(user), { status: 200 });
   } catch (err) {
-    console.error('Error fetching user details:', err);
-    return NextResponse.json({ status: 500, message: 'Server error' });
+    console.error('User detail error:', err);
+    return new Response(JSON.stringify({ message: 'Server error' }), { status: 500 });
   }
-};
-
-export const getTeamMembers = async () => {
+}
+export async function getTeamMembers() {
   try {
-    const teamMembers = await User.find();
-    return NextResponse.json({users: teamMembers })
+    // Query the database to find all users who are not managers
+    const members = await User.find({ role: { $ne: 'manager' } }); // $ne means "not equal"
+
+    // Return only the members (excluding the manager)
+    return new Response(JSON.stringify({ users: members }), { status: 200 });
   } catch (err) {
-    console.error('Error fetching team members:', err);
-    return NextResponse.json( { status: 500, message: 'Server error' });
+    console.error('Fetch team error:', err);
+    return new Response(JSON.stringify({ message: 'Server error' }), { status: 500 });
   }
-};
+}
+
+export async function createManagerUser(body) {
+  const { name, email, password, designation, id } = body;
+
+  // Ensure required fields are provided
+  if (!name || !email || !password || !designation || !id) {
+    return new Response(JSON.stringify({ message: 'Missing required fields' }), { status: 400 });
+  }
+
+  try {
+    // Hash the password before saving the user
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = new User({
+      id, // Ensure you pass the `id` here
+      name,
+      email,
+      password: hashedPassword, // Store the hashed password
+      designation,
+      role: 'manager', // Set the role as manager
+    });
+
+    // Save the user to the database
+    const saved = await user.save();
+    return new Response(JSON.stringify(saved), { status: 201 });
+  } catch (err) {
+    console.error('Create user error:', err);
+    return new Response(JSON.stringify({ message: 'Server error' }), { status: 500 });
+  }
+}

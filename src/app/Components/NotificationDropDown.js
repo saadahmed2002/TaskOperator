@@ -11,7 +11,7 @@ const NotificationDropdown = ({ userId }) => {
           const res = await axios.get(`/api/notification/${userId}`, {
             withCredentials: true
           })
-                    setNotifications(res.data); // Ensure you're fetching the latest notifications with updated `read` status
+                    setNotifications(res.data); 
         } catch (err) {
           console.error('Error fetching notifications:', err.message);
         }
@@ -20,20 +20,19 @@ const NotificationDropdown = ({ userId }) => {
     if (!userId) return;
 
     fetchNotifications();
-    const interval = setInterval(fetchNotifications, 5000); // Fetch every 10s
+    const interval = setInterval(fetchNotifications, 5000); 
 
-    return () => clearInterval(interval); // Cleanup on unmount
+    return () => clearInterval(interval); 
   }, [userId]);
 
   const handleMarkAsRead = async (notificationId) => {
     try {
-      // Send a request to mark as read on the server
+      
       await axios.patch(`/api/notification/readed/${notificationId}`,
         {
           withCredentials: true
         });
       
-      // Optimistically update the local state
       setNotifications((prev) =>
         prev.map((n) =>
           n._id === notificationId ? { ...n, isRead: true } : n

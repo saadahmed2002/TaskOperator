@@ -14,7 +14,6 @@ export default function DashboardTasks() {
       
           const allTasks = await res.json();
       
-          // Filter to show only 5 pending tasks
           const pendingTasks = allTasks
             .filter(task => task.status === 'Pending')
             .slice(0, 5);
