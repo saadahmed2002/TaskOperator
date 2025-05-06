@@ -14,7 +14,7 @@ export const getTasksCreatedByUser = async (req,  userId ) => {
     }
 
     const tasks = await Task.find({ assignedBy: userId }).populate('assignedTo', 'name');
-    console.log(tasks)
+   
 
     if (tasks.length === 0) {
       return NextResponse.json(

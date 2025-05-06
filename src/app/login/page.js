@@ -44,7 +44,6 @@ export default function LoginPage() {
         console.log('Login failed');
       }
     } catch (err) {
-      // console.log(err)
       setError("Something went wrong!")
 
     }

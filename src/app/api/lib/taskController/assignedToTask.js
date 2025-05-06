@@ -2,11 +2,11 @@ import dbConnect from '../dbConnect';
 import Task from '../../model/Task';
 import mongoose from 'mongoose';
 
-export async function assignedToTask(req, { params }) {
+export async function assignedToTask(req, userId) {
   await dbConnect();
 
   try {
-    const { userId } = params;
+ 
 
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       return new Response(JSON.stringify({ message: 'Invalid user ID' }), { status: 400 });

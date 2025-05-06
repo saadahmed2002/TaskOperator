@@ -25,7 +25,7 @@ export default function MemberProfile() {
           const data = await res.json();
           setStats({ assigned: data.assigned, completed: data.completed, pending: data.pending, failed: data.failed });
         } else {
-          console.log('Error fetching task stats');
+          console.error('Error fetching task stats');
         }
       } catch (err) {
         console.error('Error fetching task stats:', err);

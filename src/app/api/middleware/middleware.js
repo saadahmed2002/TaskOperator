@@ -42,7 +42,7 @@ export async function verifyToken(children) {
     const value = await pos.get('token')
     const val = value.value
    const resp =  jwt.verify(val, process.env.JWT_SECRET) 
-   console.log(resp)  
+ 
    return children
   } catch (error) {
     

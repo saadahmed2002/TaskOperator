@@ -16,8 +16,7 @@ const main = async (req, res) => {
             read: false,
         });
 
-      const newNotifications =   await newNotification.save();
-      console.log(newNotification)
+      const newNotifications =   await newNotification.save()
        return NextResponse.json({ message: 'Notification created successfully', notification: newNotification });
     } catch (error) {
         console.error('Error creating notification:', error);

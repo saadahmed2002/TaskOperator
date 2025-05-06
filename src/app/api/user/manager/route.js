@@ -7,9 +7,9 @@ export async function GET(req){
    
         const userData = {
           id: 'unique-manager-id',
-          name: 'Saad Ahmed',
+          name: 'Manager',
           email: 'manager@1.com',
-          password: 'password', // This is the plaintext password
+          password: 'password',
           designation: 'manager',
         };
      

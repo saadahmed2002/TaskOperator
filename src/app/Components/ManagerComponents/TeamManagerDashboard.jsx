@@ -145,8 +145,6 @@ export default function DashboardPage() {
 
       const updatedTask = await res.json();
 
-      console.log('Updated Task:', updatedTask);  // Log the response for debugging
-
       if (!updatedTask || !updatedTask._id) {
         throw new Error('Invalid updated task from server');
       }

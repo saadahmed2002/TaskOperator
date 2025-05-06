@@ -48,7 +48,6 @@ export default function AssignTaskPage() {
         if (!res.ok) throw new Error('Failed to fetch members');
         const members = await res.json();
    
-        console.log(members)
         setTeamMembers(members.users);
       } catch (error) {
         console.error('Error fetching team members:', error);

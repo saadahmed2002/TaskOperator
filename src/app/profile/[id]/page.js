@@ -32,10 +32,10 @@ export default function ProfilePage() {
   
           if (res.ok) {
             const data = await res.json();
-            console.log(data)
+    
             setStats({ assigned: data.assigned, completed: data.completed, pending: data.pending, failed: data.failed });
           } else {
-            console.log('Error fetching task stats');
+            console.error('Error fetching task stats');
           }
         } catch (err) {
           console.error('Error fetching task stats:', err);
@@ -77,8 +77,6 @@ export default function ProfilePage() {
     fetchMemberData();
   }, [id]);
 
-  const completedTasks = tasks.filter((task) => task.status === 'Completed');
-  const pendingTasks = tasks.filter((task) => task.status !== 'Completed');
   const handleDeleteTaskDialog = () => {
     
     setConfirmDialog({

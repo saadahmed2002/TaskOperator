@@ -21,8 +21,6 @@ useEffect(() =>{
 
 
 },[])
-  
-  
 
   const fetchAssignedTasks = async () => {
     setLoading(true)

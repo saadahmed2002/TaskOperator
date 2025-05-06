@@ -11,7 +11,7 @@ async function run() {
     designation: 'manager',
   };
 const user =await createUser(userData)
- console.log(user)
+
 }
 
 run().catch(console.error);

@@ -48,7 +48,6 @@ export default function AddMemberPage() {
     setMessage('');
   
     if (!validateForm()) return;
-  console.log(process.env.NEXT_PUBLIC_API_URL)
     try {
       const res = await fetch(`/api/user/create`, {
         method: 'POST',
@@ -68,7 +67,7 @@ export default function AddMemberPage() {
         setMessage(data.error || 'Something went wrong, Try again!.');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setMessage('Server error.');
     }
     setLoading(false)

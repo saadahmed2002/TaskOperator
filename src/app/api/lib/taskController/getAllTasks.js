@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 
 export const getAllTasks = async (req) => {
   await dbConnect();
-  console.log("I am called")
+
 
   try {
     const tasks = await Task.find()

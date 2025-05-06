@@ -17,8 +17,6 @@ export async function POST(req) {
       type,
       read: false,
     });
-    console.log(newNotification)
-
     await newNotification.save();
 
     return verifyToken( NextResponse.json(
