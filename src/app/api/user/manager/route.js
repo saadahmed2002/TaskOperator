@@ -1,3 +1,5 @@
+import { verifyToken } from "../../middleware/middleware";
+
 const { default: dbConnect } = require("../../lib/dbConnect");
 const { createManagerUser } = require("../../lib/userController/userController");
 
@@ -11,6 +13,6 @@ export async function GET(req){
           designation: 'manager',
         };
      
-      return await createManagerUser(userData)
+      return await verifyToken(createManagerUser(userData))
 
 }

@@ -4,5 +4,5 @@ import dbConnect from '../../../lib/dbConnect';
 
 export async function GET(req, { params }) {
   await dbConnect();
-  return assignedToTask(req, { params });
+  return verifyToken(assignedToTask(req, { params }));
 }

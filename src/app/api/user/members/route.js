@@ -7,5 +7,5 @@ import { verifyToken } from "../../middleware/middleware";
 
 export async function GET(req) {
   await dbConnect();
-  return await getAllUsers(req)
+  return await verifyToken(getAllUsers(req))
 }

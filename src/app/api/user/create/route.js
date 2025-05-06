@@ -4,6 +4,8 @@ import dbConnect from '../../lib/dbConnect';
 import User from '../../model/User';
 const bcrypt  = require('bcrypt')
 import { v4 as uuidv4 } from 'uuid';
+import { verify } from 'jsonwebtoken';
+import { verifyToken } from '../../middleware/middleware';
 
 
 export async function POST(req) {
@@ -35,10 +37,10 @@ export async function POST(req) {
     });
 
     await newUser.save();
-    return NextResponse.json({ message: 'User created successfully' }, { status: 201 });
+    return verifyToken( NextResponse.json({ message: 'User created successfully' }, { status: 201 }));
 
   } catch (err) {
     console.error('Error creating user:', err);
-    return NextResponse.json({ message: 'Error creating user' }, { status: 500 });
+    return verifyToken(NextResponse.json({ message: 'Error creating user' }, { status: 500 }));
   }
 }

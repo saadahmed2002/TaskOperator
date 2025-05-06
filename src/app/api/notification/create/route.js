@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '../../lib/dbConnect';
 import Notification from '../../model/Notification';
+import { verifyToken } from '../../middleware/middleware';
 
 export async function POST(req) {
   await dbConnect();
@@ -20,12 +21,12 @@ export async function POST(req) {
 
     await newNotification.save();
 
-    return NextResponse.json(
+    return verifyToken( NextResponse.json(
       { message: 'Notification created successfully', notification: newNotification },
       { status: 200 }
-    );
+    ))
   } catch (error) {
     console.error('Error creating notification:', error);
-    return NextResponse.json({ message: 'Failed to create notification' }, { status: 500 });
+    return verifyToken( NextResponse.json({ message: 'Failed to create notification' }, { status: 500 }))
   }
 }

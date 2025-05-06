@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import User from '../../../model/User';
 import dbConnect from '../../../lib/dbConnect';
 import { deleteUser } from '../../../lib/userController/userController';
+import { verifyToken } from '@/app/api/middleware/middleware';
 
 export  async function GET(req, {params }) {
   const { userId } = await params;  
@@ -22,16 +23,16 @@ export  async function GET(req, {params }) {
       return NextResponse.json({ status: 404, message: 'User not found' });
     }
     
-    return NextResponse.json({ status: 200, member: user });
+    return verifyToken( NextResponse.json({ status: 200, member: user }));
   } catch (err) {
     console.error('Error fetching user details:', err);
-    return NextResponse.json({ status: 500, message: 'Server error' });
+    return verifyToken(NextResponse.json({ status: 500, message: 'Server error' }));
   }
 };
 
 export async function DELETE(req, {params}) {
     const {userId} = await params
     console.log(userId)
-    return deleteUser(userId)
+    return verifyToken(deleteUser(userId))
     
 }
